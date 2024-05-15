@@ -1,5 +1,6 @@
 import { client } from './client'
-const { createUser } = require('./models/users')
+// const client = require('./client')
+// const { createUser } = require('./models/users')
 
 async function dropTables() {
   try {

@@ -1,5 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const client_1 = require("./client");
+// import { client } from './client'
+// export {}
+const client = require('./client');
 const models = require('./models');
-module.exports = Object.assign({ client: client_1.client }, models);
+module.exports = Object.assign({ client }, models);

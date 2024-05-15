@@ -18,12 +18,12 @@ app.get('/', (req: Request, res: Response, next: NextFunction)  => {
   res.send('Server Online & Healthy 🟢')
 })
 
-// const apiRouter = require('./api')
-// app.use('/api', apiRouter)
+const apiRouter = require('./api')
+app.use('/api', apiRouter)
 
 const { client } = require('./db/client')
 
-const PORT = 3000 || process.env
+const PORT = 3000 || process.env.PORT
 
 const handle = app.listen(PORT, async () => {
   try {
