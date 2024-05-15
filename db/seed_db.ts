@@ -116,6 +116,21 @@ const createInitialJobs = async () => {
         user_id: 1, // Assuming the user ID of the applicant is 2
         is_active: true,
       },
+      {
+        title: 'Marketing Manager',
+        company_name: 'Global Marketing Agency',
+        jobURL: 'https://globalmarketing.example.com/job/789',
+        location: 'London',
+        date_applied: '2024-05-25',
+        application_status: 'Pending',
+        interview_date: null,
+        interview_type: null,
+        salary: '£50,000 - £60,000 per year',
+        follow_up: [],
+        notes: 'Seeking an experienced marketing professional to lead innovative campaigns.',
+        user_id: 2, // Assuming the user ID of the applicant is 3
+        is_active: true,
+      },
     ];
     const createNewJobs = await Promise.all(initialJobs.map(createJob));
     console.log(createNewJobs);
