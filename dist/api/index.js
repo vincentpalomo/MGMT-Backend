@@ -14,4 +14,6 @@ apiRouter.get('/', (req, res, next) => {
 // routers
 const usersRouter = require('./users');
 apiRouter.use('/users', usersRouter);
+const jobsRouter = require('./jobs');
+apiRouter.use('/jobs', jobsRouter);
 module.exports = apiRouter;

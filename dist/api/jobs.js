@@ -13,22 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const usersRouter = express_1.default.Router();
-const { getAllUsers, getUserById } = require('../db/models/users');
-const { getJobByUserID } = require('../db/models/jobs');
-usersRouter.get('/all', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield getAllUsers();
-    res.send(users);
+const jobsRouter = express_1.default.Router();
+const { createJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
+jobsRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const jobs = yield getAllJobs();
+    res.send(jobs);
 }));
-usersRouter.get('/:user_id/jobs', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user_id = parseInt(req.params.user_id); // Parse user_id to integer
-        const jobsForUser = yield getJobByUserID(user_id);
-        res.json(jobsForUser);
-    }
-    catch (error) {
-        console.error('Error retrieving jobs for user:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}));
-module.exports = usersRouter;
+jobsRouter.get('/');
+module.exports = jobsRouter;
