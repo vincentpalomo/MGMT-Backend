@@ -1,5 +1,5 @@
 import { config } from 'dotenv'
-import express, { Request, Responst, NextFunction } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 
@@ -14,14 +14,14 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('dev'))
 
-app.get('/', (req: Request, res: Responst, next: NextFunction)  => {
-  res.send('Server Online 🚀')
+app.get('/', (req: Request, res: Response, next: NextFunction)  => {
+  res.send('Server Online & Healthy 🟢')
 })
 
-const apiRouter = require('./api')
-app.use('/api', apiRouter)
+// const apiRouter = require('./api')
+// app.use('/api', apiRouter)
 
-const { client } = require('./db')
+const { client } = require('./db/client')
 
 const PORT = 3000 || process.env
 
@@ -34,3 +34,5 @@ const handle = app.listen(PORT, async () => {
     handle.close()
   }
 })
+
+module.exports = { app }

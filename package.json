@@ -1,12 +1,27 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12"
-  }
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.12.12",
+    "@types/pg": "^8.11.6"
+  },
+  "name": "mgmt",
+  "description": "An app to help users set and track their goals. Users can create new goals, set milestones, track progress, update goal details, and delete goals when achieved or no longer relevant.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }
