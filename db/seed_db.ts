@@ -113,7 +113,7 @@ const createInitialJobs = async () => {
         salary: '$90,000 - $120,000 per year',
         follow_up: ['Follow up email to HR'],
         notes: 'Exciting opportunity to work on cutting-edge machine learning projects.',
-        user_id: 2, // Assuming the user ID of the applicant is 2
+        user_id: 1, // Assuming the user ID of the applicant is 2
         is_active: true,
       },
     ];
