@@ -8,7 +8,7 @@ interface User {
   avatar: string;
 }
 
-const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser, deleteUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 
 // GET api/users/
@@ -107,6 +107,30 @@ usersRouter.patch('/edit/:user_id', async (req: Request, res: Response, next: Ne
     })
   } catch (error) {
     
+  }
+})
+
+// DELETE api/users/deactivate/:user_id
+usersRouter.delete('/deactivate/:user_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userID = parseInt(req.params.user_id)
+    const checkUser = await getUserById(userID)
+
+    if (!checkUser) {
+      next({
+        name: `UserNotFoundError`,
+        message: `User does not exist with id: ${userID} 🤔`
+      })
+    }
+
+    const deletedUser = await deleteUser(userID)
+    res.send({
+      message: 'User Disabled',
+      deletedUser
+    })
+  } catch (error) {
+    console.error(`error deleting user endpoint`, error)
+    next(error)
   }
 })
 

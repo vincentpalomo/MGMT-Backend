@@ -91,7 +91,7 @@ const getUserById = async (userID: User) => {
 const getAllUsers = async () => {
   try {
     const { rows: users } = await client.query(`
-    SELECT id, username, avatar FROM users
+    SELECT id, username, avatar, isActive FROM users
     `);
 
     return users;
@@ -136,14 +136,19 @@ const updateUser = async (userID: User, fields: User) => {
 // delete user
 const deleteUser = async (userID: User) => {
   try {
-    const { rows: user } = await client.query(
+
+    console.log(userID)
+
+    const { rows: [user] } = await client.query(
       `
     UPDATE users
-    SET "isActive" = "false"
-    WHERE id = ${userID}
+    SET "isActive" = false
+    WHERE id = $1
     `,
       [userID]
     );
+
+    console.log(user, userID)
 
     return user;
   } catch (error) {

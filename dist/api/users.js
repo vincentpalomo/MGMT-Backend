@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
-const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser, deleteUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 // GET api/users/
 usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -98,6 +98,28 @@ usersRouter.patch('/edit/:user_id', (req, res, next) => __awaiter(void 0, void 0
         });
     }
     catch (error) {
+    }
+}));
+// DELETE api/users/deactivate/:user_id
+usersRouter.delete('/deactivate/:user_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userID = parseInt(req.params.user_id);
+        const checkUser = yield getUserById(userID);
+        if (!checkUser) {
+            next({
+                name: `UserNotFoundError`,
+                message: `User does not exist with id: ${userID} 🤔`
+            });
+        }
+        const deletedUser = yield deleteUser(userID);
+        res.send({
+            message: 'User Disabled',
+            deletedUser
+        });
+    }
+    catch (error) {
+        console.error(`error deleting user endpoint`, error);
+        next(error);
     }
 }));
 module.exports = usersRouter;
