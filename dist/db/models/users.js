@@ -13,15 +13,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("../client");
 const bcrypt = require('bcrypt');
 // create users
-const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username, password, avatar }) {
+const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username, password, email, avatar }) {
     try {
         const SALT_COUNT = 10;
         const hashedPassword = yield bcrypt.hash(password, SALT_COUNT);
         const { rows: user } = yield client_1.client.query(`
-    INSERT INTO users(username, password, avatar)
-    VALUES ($1, $2, $3)
-    RETURNING id, username, avatar
-    `, [username, hashedPassword, avatar]);
+    INSERT INTO users(username, password, email, avatar)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id, username, email, avatar
+    `, [username, hashedPassword, email, avatar]);
         return user;
     }
     catch (error) {
@@ -32,7 +32,7 @@ const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username
 const getUserByUsername = (username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { rows: [user], } = yield client_1.client.query(`
-    SELECT id, username, avatar FROM users
+    SELECT id, username, email, avatar FROM users
     WHERE username = $1
     `, [username]);
         return user;
@@ -63,7 +63,7 @@ const getUser = (_b) => __awaiter(void 0, [_b], void 0, function* ({ username, p
 const getUserById = (userID) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { rows: [user], } = yield client_1.client.query(`
-    SELECT id, username, avatar FROM users
+    SELECT id, username, email, avatar FROM users
     WHERE id = $1    
     `, [userID]);
         return user;
@@ -76,7 +76,7 @@ const getUserById = (userID) => __awaiter(void 0, void 0, void 0, function* () {
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { rows: users } = yield client_1.client.query(`
-    SELECT id, username, avatar, is_active FROM users
+    SELECT id, username, avatar, email, is_active FROM users
     `);
         return users;
     }

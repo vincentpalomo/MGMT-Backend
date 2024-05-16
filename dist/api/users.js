@@ -69,10 +69,11 @@ usersRouter.get('/username/:username', (req, res, next) => __awaiter(void 0, voi
 }));
 // POST api/users/register
 usersRouter.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password, avatar } = req.body;
+    const { username, password, email, avatar } = req.body;
     const user = yield createUser({
         username,
         password,
+        email,
         avatar,
     });
     res.send({
@@ -83,7 +84,7 @@ usersRouter.post('/register', (req, res, next) => __awaiter(void 0, void 0, void
 // PATCH api/users/edit/:user_id
 usersRouter.patch('/edit/:user_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, password, avatar } = req.body;
+        const { username, password, email, avatar } = req.body;
         const userID = parseInt(req.params.user_id);
         const user = yield getUserById(userID);
         if (!user)
@@ -91,6 +92,7 @@ usersRouter.patch('/edit/:user_id', (req, res, next) => __awaiter(void 0, void 0
         const fields = {
             username: username,
             password: password,
+            email: email,
             avatar: avatar,
         };
         const userUpdate = yield updateUser(user.id, fields);

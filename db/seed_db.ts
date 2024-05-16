@@ -26,6 +26,7 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         username VARCHAR(225) UNIQUE NOT NULL,
         password VARCHAR(225) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         avatar TEXT,
         is_active BOOLEAN DEFAULT true
       );
@@ -62,11 +63,13 @@ const createInitialUsers = async () => {
     const initialUsers = [
       {
         username: 'test',
+        email: 'test@test.com',
         password: '1234',
         avatar: 'no image',
       },
       {
         username: 'jinx',
+        email: 'jinx@jinx.com',
         password: 'bestbb',
         avatar: 'no image',
       },

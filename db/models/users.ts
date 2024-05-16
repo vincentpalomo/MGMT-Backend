@@ -6,23 +6,24 @@ const bcrypt = require('bcrypt');
 interface User {
   username: string;
   password?: string;
+  email: string;
   avatar: string;
   userID: number;
 }
 
 // create users
-const createUser = async ({ username, password, avatar }: User) => {
+const createUser = async ({ username, password, email, avatar }: User) => {
   try {
     const SALT_COUNT = 10;
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
     const { rows: user } = await client.query(
       `
-    INSERT INTO users(username, password, avatar)
-    VALUES ($1, $2, $3)
-    RETURNING id, username, avatar
+    INSERT INTO users(username, password, email, avatar)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id, username, email, avatar
     `,
-      [username, hashedPassword, avatar]
+      [username, hashedPassword, email, avatar]
     );
 
     return user;
@@ -38,7 +39,7 @@ const getUserByUsername = async (username: string) => {
       rows: [user],
     } = await client.query(
       `
-    SELECT id, username, avatar FROM users
+    SELECT id, username, email, avatar FROM users
     WHERE username = $1
     `,
       [username]
@@ -75,7 +76,7 @@ const getUserById = async (userID: User) => {
       rows: [user],
     } = await client.query(
       `
-    SELECT id, username, avatar FROM users
+    SELECT id, username, email, avatar FROM users
     WHERE id = $1    
     `,
       [userID]
@@ -91,7 +92,7 @@ const getUserById = async (userID: User) => {
 const getAllUsers = async () => {
   try {
     const { rows: users } = await client.query(`
-    SELECT id, username, avatar, is_active FROM users
+    SELECT id, username, avatar, email, is_active FROM users
     `);
 
     return users;

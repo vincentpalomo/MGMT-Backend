@@ -5,6 +5,7 @@ const usersRouter = express.Router();
 interface User {
   username: string;
   password: string;
+  email: string;
   avatar: string;
 }
 
@@ -80,11 +81,12 @@ usersRouter.get('/username/:username', async (req: Request, res: Response, next:
 
 // POST api/users/register
 usersRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
-  const { username, password, avatar }: User = req.body;
+  const { username, password, email, avatar }: User = req.body;
 
   const user = await createUser({
     username,
     password,
+    email,
     avatar,
   });
 
@@ -97,7 +99,7 @@ usersRouter.post('/register', async (req: Request, res: Response, next: NextFunc
 // PATCH api/users/edit/:user_id
 usersRouter.patch('/edit/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password, avatar }: User = req.body;
+    const { username, password, email, avatar }: User = req.body;
     const userID = parseInt(req.params.user_id);
     const user = await getUserById(userID);
 
@@ -106,6 +108,7 @@ usersRouter.patch('/edit/:user_id', async (req: Request, res: Response, next: Ne
     const fields = {
       username: username,
       password: password,
+      email: email,
       avatar: avatar,
     };
 
