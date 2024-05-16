@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jobsRouter = express_1.default.Router();
 const { createJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
+// GET api/jobs/
 jobsRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const jobs = yield getAllJobs();
     res.send(jobs);

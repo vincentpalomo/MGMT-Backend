@@ -40,7 +40,7 @@ function createTables() {
         username VARCHAR(225) UNIQUE NOT NULL,
         password VARCHAR(225) NOT NULL,
         avatar TEXT,
-        isActive BOOLEAN DEFAULT true
+        is_active BOOLEAN DEFAULT true
       );
 
       CREATE TABLE jobs (
@@ -125,7 +125,7 @@ const createInitialJobs = () => __awaiter(void 0, void 0, void 0, function* () {
                 salary: '$90,000 - $120,000 per year',
                 follow_up: ['Follow up email to HR'],
                 notes: 'Exciting opportunity to work on cutting-edge machine learning projects.',
-                user_id: 1,
+                user_id: 1, // Assuming the user ID of the applicant is 2
                 is_active: true,
             },
             {
@@ -140,7 +140,7 @@ const createInitialJobs = () => __awaiter(void 0, void 0, void 0, function* () {
                 salary: '£50,000 - £60,000 per year',
                 follow_up: [],
                 notes: 'Seeking an experienced marketing professional to lead innovative campaigns.',
-                user_id: 2,
+                user_id: 2, // Assuming the user ID of the applicant is 3
                 is_active: true,
             },
         ];

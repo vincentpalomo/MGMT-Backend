@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PORT = void 0;
 const dotenv_1 = require("dotenv");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
@@ -30,11 +31,11 @@ app.get('/', (req, res, next) => {
 const apiRouter = require('./api');
 app.use('/api', apiRouter);
 const { client } = require('./db/client');
-const PORT = 3000 || process.env.PORT;
-const handle = app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
+exports.PORT = 3000 || process.env.PORT;
+const handle = app.listen(exports.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
-        console.log(`Server is running on http://localhost:${PORT}/ 🚀`);
+        console.log(`Server is running on http://localhost:${exports.PORT}/ 🚀 API http://localhost:${exports.PORT}/api 🌐`);
     }
     catch (error) {
         console.log('Error server shutdown 😢');

@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("../client");
 const bcrypt = require('bcrypt');
 // create users
-const createUser = ({ username, password, avatar }) => __awaiter(void 0, void 0, void 0, function* () {
+const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username, password, avatar }) {
     try {
         const SALT_COUNT = 10;
         const hashedPassword = yield bcrypt.hash(password, SALT_COUNT);
@@ -42,7 +42,7 @@ const getUserByUsername = (username) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 // get single user *authentication
-const getUser = ({ username, password }) => __awaiter(void 0, void 0, void 0, function* () {
+const getUser = (_b) => __awaiter(void 0, [_b], void 0, function* ({ username, password }) {
     try {
         const user = yield getUserByUsername(username);
         const hashedPassword = user.password;
@@ -76,7 +76,7 @@ const getUserById = (userID) => __awaiter(void 0, void 0, void 0, function* () {
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { rows: users } = yield client_1.client.query(`
-    SELECT id, username, avatar, isActive FROM users
+    SELECT id, username, avatar, is_active FROM users
     `);
         return users;
     }
@@ -111,9 +111,9 @@ const updateUser = (userID, fields) => __awaiter(void 0, void 0, void 0, functio
 const deleteUser = (userID) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(userID);
-        const { rows: [user] } = yield client_1.client.query(`
+        const { rows: user } = yield client_1.client.query(`
     UPDATE users
-    SET "isActive" = false
+    SET "is_active" = false
     WHERE id = $1
     `, [userID]);
         console.log(user, userID);

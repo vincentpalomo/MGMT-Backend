@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
-const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser, deleteUser } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser, deleteUser, } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 // GET api/users/
 usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -71,11 +71,13 @@ usersRouter.get('/username/:username', (req, res, next) => __awaiter(void 0, voi
 usersRouter.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, avatar } = req.body;
     const user = yield createUser({
-        username, password, avatar
+        username,
+        password,
+        avatar,
     });
     res.send({
         message: 'Thank you for signing up! 😎',
-        user
+        user,
     });
 }));
 // PATCH api/users/edit/:user_id
@@ -89,16 +91,15 @@ usersRouter.patch('/edit/:user_id', (req, res, next) => __awaiter(void 0, void 0
         const fields = {
             username: username,
             password: password,
-            avatar: avatar
+            avatar: avatar,
         };
         const userUpdate = yield updateUser(user.id, fields);
         res.send({
             message: `Profile updated successfully! ✌️`,
-            userUpdate
+            userUpdate,
         });
     }
-    catch (error) {
-    }
+    catch (error) { }
 }));
 // DELETE api/users/deactivate/:user_id
 usersRouter.delete('/deactivate/:user_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -108,13 +109,13 @@ usersRouter.delete('/deactivate/:user_id', (req, res, next) => __awaiter(void 0,
         if (!checkUser) {
             next({
                 name: `UserNotFoundError`,
-                message: `User does not exist with id: ${userID} 🤔`
+                message: `User does not exist with id: ${userID} 🤔`,
             });
         }
         const deletedUser = yield deleteUser(userID);
         res.send({
-            message: 'User Disabled',
-            deletedUser
+            message: 'User Deactivated',
+            deletedUser,
         });
     }
     catch (error) {

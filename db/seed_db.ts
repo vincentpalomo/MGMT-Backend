@@ -27,7 +27,7 @@ async function createTables() {
         username VARCHAR(225) UNIQUE NOT NULL,
         password VARCHAR(225) NOT NULL,
         avatar TEXT,
-        isActive BOOLEAN DEFAULT true
+        is_active BOOLEAN DEFAULT true
       );
 
       CREATE TABLE jobs (
