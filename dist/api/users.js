@@ -21,11 +21,13 @@ usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     const users = yield getAllUsers();
     res.send(users);
 }));
-// GET api/users/user_id/jobs
-usersRouter.get('/:user_id/jobs', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// GET api/users/jobs/:user_id
+usersRouter.get('/jobs/:user_id/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user_id = parseInt(req.params.user_id); // Parse user_id to integer
         const trackedJobs = yield getJobByUserID(user_id);
+        if (trackedJobs.length === 0)
+            return res.json(`No jobs found from user: ${user_id}`);
         res.json(trackedJobs);
     }
     catch (error) {
@@ -38,6 +40,8 @@ usersRouter.get('/id/:user_id', (req, res, next) => __awaiter(void 0, void 0, vo
     try {
         const user_id = parseInt(req.params.user_id);
         const user = yield getUserById(user_id);
+        if (!user)
+            return res.json(`No user id: ${user_id} found`);
         const trackedJobs = yield getJobByUserID(user_id);
         user.jobs = trackedJobs;
         res.json(user);
@@ -52,6 +56,8 @@ usersRouter.get('/username/:username', (req, res, next) => __awaiter(void 0, voi
     try {
         const username = req.params.username;
         const user = yield getUserByUsername(username);
+        if (!user)
+            return res.json(`No user named: [${username}] found.`);
         const trackedJobs = yield getJobByUserID(user.id);
         user.jobs = trackedJobs;
         res.json(user);

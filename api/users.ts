@@ -17,11 +17,13 @@ usersRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
   res.send(users);
 });
 
-// GET api/users/user_id/jobs
-usersRouter.get('/:user_id/jobs', async (req: Request, res: Response, next: NextFunction) => {
+// GET api/users/jobs/:user_id
+usersRouter.get('/jobs/:user_id/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user_id = parseInt(req.params.user_id); // Parse user_id to integer
     const trackedJobs = await getJobByUserID(user_id);
+
+    if (trackedJobs.length === 0) return res.json(`No jobs found from user: ${user_id}`)
 
     res.json(trackedJobs);
   } catch (error) {
@@ -35,6 +37,9 @@ usersRouter.get('/id/:user_id', async (req: Request, res: Response, next: NextFu
   try {
     const user_id = parseInt(req.params.user_id)
     const user = await getUserById(user_id)
+
+    if (!user) return res.json(`No user id: ${user_id} found`)
+
     const trackedJobs = await getJobByUserID(user_id)
 
     user.jobs = trackedJobs
@@ -51,6 +56,9 @@ usersRouter.get('/username/:username', async (req: Request, res: Response, next:
   try {
     const username = req.params.username
     const user = await getUserByUsername(username)
+
+    if (!user) return res.json(`No user named: [${username}] found.`)
+
     const trackedJobs = await getJobByUserID(user.id)
 
     user.jobs = trackedJobs
