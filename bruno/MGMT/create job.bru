@@ -1,0 +1,30 @@
+meta {
+  name: create job
+  type: http
+  seq: 13
+}
+
+post {
+  url: http://localhost:3000/api/jobs/create/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Software Engineer",
+    "company_name": "TechCorp Inc.",
+    "jobURL": "https://example.com/job/123",
+    "location": "New York, NY",
+    "date_applied": "2024-05-15",
+    "application_status": "Interviewing",
+    "interview_date": "2024-06-01",
+    "interview_type": "Technical",
+    "salary": "90,000 - 120,000 USD",
+    "follow_up": [],
+    "notes": "The interviewer seemed impressed with my coding skills.",
+    "user_id": 3,
+    "is_active": true
+  }
+  
+}

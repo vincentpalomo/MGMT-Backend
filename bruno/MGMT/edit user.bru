@@ -1,0 +1,19 @@
+meta {
+  name: edit user
+  type: http
+  seq: 8
+}
+
+patch {
+  url: http://localhost:3000/api/users/edit/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "worm",
+    "password": "hello",
+    "avatar": "no image"
+  }
+}

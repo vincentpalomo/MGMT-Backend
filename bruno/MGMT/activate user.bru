@@ -1,0 +1,19 @@
+meta {
+  name: activate user
+  type: http
+  seq: 11
+}
+
+patch {
+  url: http://localhost:3000/api/users/activate/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "shrimp",
+    "password": "hello",
+    "avatar": "no image"
+  }
+}
