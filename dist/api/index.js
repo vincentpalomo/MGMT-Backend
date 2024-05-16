@@ -10,8 +10,8 @@ const server_1 = require("../server");
 apiRouter.get('/', (req, res, next) => {
     res.send({
         message: 'Server is online 🟢',
-        users: `Users Route: http://localhost:${server_1.PORT}/api/users`,
-        jobs: `Jobs Route: http://localhost:${server_1.PORT}/api/jobs`,
+        users: `Users Route: http://localhost:${server_1.PORT}/api/users | https://mgmt-ymsn.onrender.com/api/users`,
+        jobs: `Jobs Route: http://localhost:${server_1.PORT}/api/jobs | https://mgmt-ymsn.onrender.com/api/jobs`,
     });
 });
 // routers

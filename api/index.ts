@@ -6,8 +6,8 @@ import { PORT } from '../server';
 apiRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.send({
     message: 'Server is online 🟢',
-    users: `Users Route: http://localhost:${PORT}/api/users`,
-    jobs: `Jobs Route: http://localhost:${PORT}/api/jobs`,
+    users: `Users Route: http://localhost:${PORT}/api/users | https://mgmt-ymsn.onrender.com/api/users`,
+    jobs: `Jobs Route: http://localhost:${PORT}/api/jobs | https://mgmt-ymsn.onrender.com/api/jobs`,
   });
 });
 
