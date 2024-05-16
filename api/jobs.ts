@@ -91,7 +91,7 @@ jobsRouter.post('/create/:user_id', async (req: Request, res: Response, next: Ne
 });
 
 // PUT api/jobs/update/:job_id *admin
-jobsRouter.put('/update/:job_id', async (req: Request, res: Response, next: NextFunction) => {
+jobsRouter.patch('/update/:job_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const jobId = parseInt(req.params.job_id);
     const {

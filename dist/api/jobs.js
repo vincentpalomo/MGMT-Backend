@@ -66,7 +66,7 @@ jobsRouter.post('/create/:user_id', (req, res, next) => __awaiter(void 0, void 0
     }
 }));
 // PUT api/jobs/update/:job_id *admin
-jobsRouter.put('/update/:job_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+jobsRouter.patch('/update/:job_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const jobId = parseInt(req.params.job_id);
         const { title, company_name, jobURL, location, date_applied, application_status, interview_date, interview_type, salary, follow_up, notes, user_id, is_active, } = req.body;
