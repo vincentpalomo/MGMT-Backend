@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("../client");
 const bcrypt = require('bcrypt');
 // create users
-const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username, password, avatar }) {
+const createUser = ({ username, password, avatar }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const SALT_COUNT = 10;
         const hashedPassword = yield bcrypt.hash(password, SALT_COUNT);
@@ -42,7 +42,7 @@ const getUserByUsername = (username) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 // get single user *authentication
-const getUser = (_b) => __awaiter(void 0, [_b], void 0, function* ({ username, password }) {
+const getUser = ({ username, password }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield getUserByUsername(username);
         const hashedPassword = user.password;
@@ -62,10 +62,12 @@ const getUser = (_b) => __awaiter(void 0, [_b], void 0, function* ({ username, p
 // get user by id
 const getUserById = (userID) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(userID);
         const { rows: [user], } = yield client_1.client.query(`
     SELECT id, username, avatar FROM users
     WHERE id = $1    
     `, [userID]);
+        console.log(user);
         return user;
     }
     catch (error) {

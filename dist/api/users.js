@@ -16,18 +16,34 @@ const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
 const { getAllUsers, getUserById } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
-usersRouter.get('/all', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// GET api/users/
+usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield getAllUsers();
     res.send(users);
 }));
+// GET api/users/user_id/jobs
 usersRouter.get('/:user_id/jobs', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user_id = parseInt(req.params.user_id); // Parse user_id to integer
-        const jobsForUser = yield getJobByUserID(user_id);
-        res.json(jobsForUser);
+        const trackedJobs = yield getJobByUserID(user_id);
+        res.json(trackedJobs);
     }
     catch (error) {
         console.error('Error retrieving jobs for user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}));
+// GET api/users/user_id
+usersRouter.get('/:user_id/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user_id = parseInt(req.params.user_id);
+        const user = yield getUserById(user_id);
+        const trackedJobs = yield getJobByUserID(user_id);
+        user.jobs = trackedJobs;
+        res.json(user);
+    }
+    catch (error) {
+        console.error('Error retrieving user by id', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
