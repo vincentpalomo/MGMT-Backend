@@ -4,6 +4,7 @@ MGMT is an app designed to help users set and track their job applications. User
 
 ## Technologies
 
+- Typescript
 - Express.js
 - PostgreSQL
 - Node.js
