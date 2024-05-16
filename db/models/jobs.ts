@@ -68,6 +68,71 @@ const createJob = async ({
   }
 };
 
+// update job
+const updateJob = async ({
+  id,
+  title,
+  company_name,
+  jobURL,
+  location,
+  date_applied,
+  application_status,
+  interview_date,
+  interview_type,
+  salary,
+  follow_up,
+  notes,
+  user_id,
+  is_active,
+}: Jobs) => {
+  try {
+    const query = `
+    UPDATE jobs
+    SET title = $1,
+        company_name = $2,
+        jobURL = $3,
+        location = $4,
+        date_applied = $5,
+        application_status = $6,
+        interview_date = $7,
+        interview_type = $8,
+        salary = $9,
+        follow_up = $10,
+        notes = $11,
+        user_id = $12,
+        is_active = $13,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = $14
+    RETURNING *;
+    `;
+    const values = [
+      title,
+      company_name,
+      jobURL,
+      location,
+      date_applied,
+      application_status,
+      interview_date,
+      interview_type,
+      salary,
+      follow_up,
+      notes,
+      user_id,
+      is_active,
+      id,
+    ];
+
+    const {
+      rows: [job],
+    } = await client.query(query, values);
+
+    return job;
+  } catch (error) {
+    console.error('Error updating job:', error);
+    throw error; // Rethrow the error to be caught by the caller
+  }
+};
+
 // get all jobs
 const getAllJobs = async () => {
   try {
@@ -90,6 +155,7 @@ const getJobByUserID = async (user_id: number) => {
 
 module.exports = {
   createJob,
+  updateJob,
   getAllJobs,
   getJobByUserID,
 };
