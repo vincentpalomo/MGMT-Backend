@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
-const { getAllUsers, getUserById, getUserByUsername } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 // GET api/users/
 usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -60,5 +60,16 @@ usersRouter.get('/username/:username', (req, res, next) => __awaiter(void 0, voi
         console.error('Error retreiving user by username', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+}));
+// POST api/users/register
+usersRouter.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password, avatar } = req.body;
+    const user = yield createUser({
+        username, password, avatar
+    });
+    res.send({
+        message: 'Thank you for signing up! 😎',
+        user
+    });
 }));
 module.exports = usersRouter;

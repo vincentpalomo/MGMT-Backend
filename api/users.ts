@@ -8,7 +8,7 @@ interface User {
   avatar: string;
 }
 
-const { getAllUsers, getUserById, getUserByUsername } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 
 // GET api/users/
@@ -60,6 +60,20 @@ usersRouter.get('/username/:username', async (req: Request, res: Response, next:
     console.error('Error retreiving user by username', error)
     res.status(500).json({ error: 'Internal server error'})
   }
+})
+
+// POST api/users/register
+usersRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password, avatar }: User = req.body
+
+  const user = await createUser({
+    username, password, avatar
+  })
+
+  res.send({
+    message: 'Thank you for signing up! 😎',
+    user
+  })
 })
 
 module.exports = usersRouter;
