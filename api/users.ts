@@ -15,6 +15,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  activateUser,
 } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 
@@ -139,6 +140,28 @@ usersRouter.delete('/deactivate/:user_id', async (req: Request, res: Response, n
     console.error(`error deleting user endpoint`, error);
     next(error);
   }
+});
+
+// PATCH api/users/activate/:user_id
+usersRouter.patch('/activate/:user_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userID = parseInt(req.params.user_id);
+    const checkUser = await getUserById(userID);
+
+    if (!checkUser) {
+      next({
+        name: `UserNotFoundError`,
+        message: `User does not exist with id: ${userID} 🤔`,
+      });
+    }
+
+    const activate = await activateUser(userID);
+
+    res.send({
+      message: 'User Activated',
+      activate,
+    });
+  } catch (error) {}
 });
 
 module.exports = usersRouter;

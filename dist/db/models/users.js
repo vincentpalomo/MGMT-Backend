@@ -110,18 +110,27 @@ const updateUser = (userID, fields) => __awaiter(void 0, void 0, void 0, functio
 // delete user
 const deleteUser = (userID) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(userID);
         const { rows: user } = yield client_1.client.query(`
     UPDATE users
     SET "is_active" = false
     WHERE id = $1
+    RETURNING username
     `, [userID]);
-        console.log(user, userID);
         return user;
     }
     catch (error) {
         console.error('Error setting user inactive from DB', error);
     }
+});
+// activate user
+const activateUser = (userID) => __awaiter(void 0, void 0, void 0, function* () {
+    const { rows: user } = yield client_1.client.query(`
+  UPDATE users
+  SET "is_active" = true
+  WHERE id = $1
+  RETURNING username
+  `, [userID]);
+    return user;
 });
 module.exports = {
     createUser,
@@ -131,4 +140,5 @@ module.exports = {
     getAllUsers,
     updateUser,
     deleteUser,
+    activateUser,
 };

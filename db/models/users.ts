@@ -136,23 +136,35 @@ const updateUser = async (userID: User, fields: User) => {
 // delete user
 const deleteUser = async (userID: User) => {
   try {
-    console.log(userID);
-
     const { rows: user } = await client.query(
       `
     UPDATE users
     SET "is_active" = false
     WHERE id = $1
+    RETURNING username
     `,
       [userID]
     );
-
-    console.log(user, userID);
 
     return user;
   } catch (error) {
     console.error('Error setting user inactive from DB', error);
   }
+};
+
+// activate user
+const activateUser = async (userID: User) => {
+  const { rows: user } = await client.query(
+    `
+  UPDATE users
+  SET "is_active" = true
+  WHERE id = $1
+  RETURNING username
+  `,
+    [userID]
+  );
+
+  return user;
 };
 
 module.exports = {
@@ -163,4 +175,5 @@ module.exports = {
   getAllUsers,
   updateUser,
   deleteUser,
+  activateUser,
 };
