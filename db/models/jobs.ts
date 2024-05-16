@@ -35,6 +35,7 @@ const createJob = async ({
   is_active,
 }: Jobs) => {
   try {
+    console.log(user_id);
     const query = `
     INSERT INTO jobs (title, company_name, jobURL, location, date_applied, application_status, interview_date, interview_type, salary, follow_up, notes, user_id, is_active, created_at, updated_at)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
