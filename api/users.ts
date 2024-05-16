@@ -8,7 +8,7 @@ interface User {
   avatar: string;
 }
 
-const { getAllUsers, getUserById, getUserByUsername, createUser } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 
 // GET api/users/
@@ -82,6 +82,32 @@ usersRouter.post('/register', async (req: Request, res: Response, next: NextFunc
     message: 'Thank you for signing up! 😎',
     user
   })
+})
+
+// PATCH api/users/edit/:user_id
+usersRouter.patch('/edit/:user_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username, password, avatar }: User = req.body
+    const userID = parseInt(req.params.user_id)
+    const user = await getUserById(userID)
+
+    if (!user) return res.send(`Forbidden Access`)
+
+    const fields = {
+      username: username,
+      password: password,
+      avatar: avatar
+    }
+
+    const userUpdate = await updateUser(user.id, fields)
+
+    res.send({
+      message: `Profile updated successfully! ✌️`,
+      userUpdate
+    })
+  } catch (error) {
+    
+  }
 })
 
 module.exports = usersRouter;

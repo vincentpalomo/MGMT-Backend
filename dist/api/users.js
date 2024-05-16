@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
-const { getAllUsers, getUserById, getUserByUsername, createUser } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername, createUser, updateUser } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 // GET api/users/
 usersRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -77,5 +77,27 @@ usersRouter.post('/register', (req, res, next) => __awaiter(void 0, void 0, void
         message: 'Thank you for signing up! 😎',
         user
     });
+}));
+// PATCH api/users/edit/:user_id
+usersRouter.patch('/edit/:user_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { username, password, avatar } = req.body;
+        const userID = parseInt(req.params.user_id);
+        const user = yield getUserById(userID);
+        if (!user)
+            return res.send(`Forbidden Access`);
+        const fields = {
+            username: username,
+            password: password,
+            avatar: avatar
+        };
+        const userUpdate = yield updateUser(user.id, fields);
+        res.send({
+            message: `Profile updated successfully! ✌️`,
+            userUpdate
+        });
+    }
+    catch (error) {
+    }
 }));
 module.exports = usersRouter;
