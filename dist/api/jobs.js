@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jobsRouter = express_1.default.Router();
-const { createJob, updateJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
+const { createJob, updateJob, deleteJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
 const { getUserById } = require('../db/models/users');
 // GET api/jobs/
 jobsRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -131,6 +131,27 @@ jobsRouter.patch('/update/:user_id/:job_id', (req, res, next) => __awaiter(void 
     }
     catch (error) {
         console.error('Error updating job', error);
+        next(error);
+    }
+}));
+// DELETE api/jobs/delete/:user_id/:job_id
+jobsRouter.delete('/delete/:user_id/:job_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userID = parseInt(req.params.user_id);
+        const jobID = parseInt(req.params.job_id);
+        // Check if the user_id from the URL matches the user_id in the request body
+        if (userID !== req.body.user_id) {
+            return res.status(403).json({ error: 'Unauthorized: User ID in URL does not match user ID in request body.' });
+        }
+        // Call the deleteJob function to delete the job from the database
+        const deletedJob = yield deleteJob(jobID);
+        res.send({
+            message: 'Job deleted successfully 😊',
+            deletedJob,
+        });
+    }
+    catch (error) {
+        console.error('Error deleting job', error);
         next(error);
     }
 }));

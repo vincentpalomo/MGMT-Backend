@@ -133,6 +133,27 @@ const updateJob = async ({
   }
 };
 
+// delete job
+const deleteJob = async (jobId: number) => {
+  try {
+    const query = `
+    DELETE FROM jobs
+    WHERE id = $1
+    RETURNING *;
+    `;
+    const values = [jobId];
+
+    const {
+      rows: [deletedJob],
+    } = await client.query(query, values);
+
+    return deletedJob;
+  } catch (error) {
+    console.error('Error deleting job from DB', error);
+    throw error;
+  }
+};
+
 // get all jobs
 const getAllJobs = async () => {
   try {
@@ -156,6 +177,7 @@ const getJobByUserID = async (user_id: number) => {
 module.exports = {
   createJob,
   updateJob,
+  deleteJob,
   getAllJobs,
   getJobByUserID,
 };

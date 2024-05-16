@@ -88,6 +88,23 @@ const updateJob = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, title
         throw error; // Rethrow the error to be caught by the caller
     }
 });
+// delete job
+const deleteJob = (jobId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const query = `
+    DELETE FROM jobs
+    WHERE id = $1
+    RETURNING *;
+    `;
+        const values = [jobId];
+        const { rows: [deletedJob], } = yield client_1.client.query(query, values);
+        return deletedJob;
+    }
+    catch (error) {
+        console.error('Error deleting job from DB', error);
+        throw error;
+    }
+});
 // get all jobs
 const getAllJobs = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -108,6 +125,7 @@ const getJobByUserID = (user_id) => __awaiter(void 0, void 0, void 0, function* 
 module.exports = {
     createJob,
     updateJob,
+    deleteJob,
     getAllJobs,
     getJobByUserID,
 };
