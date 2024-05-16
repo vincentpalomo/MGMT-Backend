@@ -8,7 +8,7 @@ interface User {
   avatar: string;
 }
 
-const { getAllUsers, getUserById } = require('../db/models/users');
+const { getAllUsers, getUserById, getUserByUsername } = require('../db/models/users');
 const { getJobByUserID } = require('../db/models/jobs');
 
 // GET api/users/
@@ -30,8 +30,8 @@ usersRouter.get('/:user_id/jobs', async (req: Request, res: Response, next: Next
   }
 });
 
-// GET api/users/user_id
-usersRouter.get('/:user_id/', async (req: Request, res: Response, next: NextFunction) => {
+// GET api/users/id/:user_id
+usersRouter.get('/id/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user_id = parseInt(req.params.user_id)
     const user = await getUserById(user_id)
@@ -42,6 +42,22 @@ usersRouter.get('/:user_id/', async (req: Request, res: Response, next: NextFunc
     res.json(user)
   } catch (error) {
     console.error('Error retrieving user by id', error)
+    res.status(500).json({ error: 'Internal server error'})
+  }
+})
+
+// GET api/users/username
+usersRouter.get('/username/:username', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const username = req.params.username
+    const user = await getUserByUsername(username)
+    const trackedJobs = await getJobByUserID(user.id)
+
+    user.jobs = trackedJobs
+    
+    res.json(user)
+  } catch (error) {
+    console.error('Error retreiving user by username', error)
     res.status(500).json({ error: 'Internal server error'})
   }
 })

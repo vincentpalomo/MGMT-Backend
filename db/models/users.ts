@@ -38,7 +38,7 @@ const getUserByUsername = async (username: string) => {
       rows: [user],
     } = await client.query(
       `
-    SELECT id, username, password, avatar, FROM users
+    SELECT id, username, avatar FROM users
     WHERE username = $1
     `,
       [username]
@@ -71,9 +71,6 @@ const getUser = async ({ username, password }: User) => {
 // get user by id
 const getUserById = async (userID: User) => {
   try {
-
-    console.log(userID)
-
     const {
       rows: [user],
     } = await client.query(
@@ -83,8 +80,6 @@ const getUserById = async (userID: User) => {
     `,
       [userID]
     );
-
-    console.log(user)
 
     return user;
   } catch (error) {
