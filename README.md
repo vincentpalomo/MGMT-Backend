@@ -1,4 +1,4 @@
-# MGMT
+# MGMT - Backend
 
 MGMT is an app designed to help users set and track their job applications. Users can create new job applications, track their progress, update application details, and delete applications when they are achieved or no longer relevant.
 
