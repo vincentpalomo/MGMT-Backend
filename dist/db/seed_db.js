@@ -163,6 +163,7 @@ function rebuildDB() {
             yield createTables();
             yield createInitialUsers();
             yield createInitialJobs();
+            console.log('Rebuild Complete 😁');
             client_1.client.end();
         }
         catch (error) {

@@ -150,6 +150,7 @@ async function rebuildDB() {
     await createTables();
     await createInitialUsers();
     await createInitialJobs();
+    console.log('Rebuild Complete 😁');
     client.end();
   } catch (error) {
     console.error('Error rebuilding DB 💀', error);
