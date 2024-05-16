@@ -13,9 +13,11 @@ MGMT is an app designed to help users set and track their job applications. User
 
 ## Installation
 
+```bash
 git clone git@github.com:vincentpalomo/MGMT.git
 cd MGMT
 npm install
+```
 
 ## API Endpoints
 
@@ -46,3 +48,7 @@ Contributions are welcome! Please follow the guidelines in the CONTRIBUTING.md f
 ## License
 
 This project is licensed under the MIT License.
+
+```
+
+```
