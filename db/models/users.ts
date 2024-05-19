@@ -39,7 +39,7 @@ const getUserByUsername = async (username: string) => {
       rows: [user],
     } = await client.query(
       `
-    SELECT id, username, email, avatar FROM users
+    SELECT id, username, password, email, avatar FROM users
     WHERE username = $1
     `,
       [username]
