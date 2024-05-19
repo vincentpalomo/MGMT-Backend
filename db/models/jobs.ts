@@ -9,13 +9,13 @@ interface Jobs {
   location: string;
   date_applied: number;
   application_status: boolean;
-  interview_date: number;
+  interview_date: string | number | null;
   interview_type: string;
   salary: number;
-  follow_up: boolean;
+  follow_up: string | boolean | [];
   notes: string;
   user_id: number;
-  is_active: boolean;
+  is_active: boolean | null;
 }
 
 // create jobs
@@ -35,6 +35,12 @@ const createJob = async ({
   is_active,
 }: Jobs) => {
   try {
+    if (is_active == null) is_active = true;
+
+    if (interview_date == '') interview_date = null;
+
+    if (follow_up == '') follow_up = [];
+
     const query = `
     INSERT INTO jobs (title, company_name, jobURL, location, date_applied, application_status, interview_date, interview_type, salary, follow_up, notes, user_id, is_active, created_at, updated_at)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

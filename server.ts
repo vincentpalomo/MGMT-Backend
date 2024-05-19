@@ -23,7 +23,7 @@ app.use('/api', apiRouter);
 
 const { client } = require('./db/client');
 
-export const PORT = 3000 || process.env.PORT;
+export const PORT = 4000 || process.env.PORT;
 
 const handle = app.listen(PORT, async () => {
   try {
