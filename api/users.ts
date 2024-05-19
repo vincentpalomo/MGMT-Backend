@@ -11,6 +11,7 @@ interface User {
 
 const {
   getAllUsers,
+  getUser,
   getUserById,
   getUserByUsername,
   createUser,
@@ -77,6 +78,19 @@ usersRouter.get('/username/:username', async (req: Request, res: Response, next:
     console.error('Error retreiving user by username', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+// GET api/users/login
+usersRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password }: User = req.body;
+  const user = await getUser({ username, password });
+
+  if (!user) return res.status(401).json({ message: 'Invalid username or password' });
+
+  res.send({
+    message: `Welcome back, ${username}!`,
+    user,
+  });
 });
 
 // POST api/users/register
