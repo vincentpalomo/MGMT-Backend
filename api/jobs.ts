@@ -52,9 +52,12 @@ jobsRouter.get('/user/:user_id/post/:post_post_id', async (req: Request, res: Re
     const postID = parseInt(req.params.post_id);
 
     const user = await getJobByUserID(userID);
-    const post = await getJobByPostID();
+    const post = await getJobByPostID(userID, postID);
 
     if (!user) return res.send(`User: ${userID} does not exist 😢`);
+    if (!post) return res.send(`Post: ${postID} does not exist 😢`);
+
+    res.send(post);
   } catch (error) {}
 });
 
