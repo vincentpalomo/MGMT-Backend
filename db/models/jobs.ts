@@ -179,10 +179,18 @@ const getJobByUserID = async (user_id: number) => {
   return job?.filter((j) => j.user_id === user_id);
 };
 
+// get job by post id
+const getJobByPostID = async (user_id: number, post_id: number) => {
+  const job = await getAllJobs();
+
+  return job?.filter((j) => j.user_id === user_id && j.post_id === post_id);
+};
+
 module.exports = {
   createJob,
   updateJob,
   deleteJob,
   getAllJobs,
   getJobByUserID,
+  getJobByPostID,
 };

@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 const jobsRouter = express.Router();
 
-const { createJob, updateJob, deleteJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
+const { createJob, updateJob, deleteJob, getAllJobs, getJobByUserID, getJobByPostID } = require('../db/models/jobs');
 const { getUserById } = require('../db/models/users');
 
 // interface
@@ -42,6 +42,19 @@ jobsRouter.get('/user/:user_id', async (req: Request, res: Response, next: NextF
     if (user.jobs.length === 0) return res.send(`No current jobs with this user 😥`);
 
     res.send(user);
+  } catch (error) {}
+});
+
+// GET api/jobs/user/:user_id/post/:post_id
+jobsRouter.get('/user/:user_id/post/:post_post_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userID = parseInt(req.params.user_id);
+    const postID = parseInt(req.params.post_id);
+
+    const user = await getJobByUserID(userID);
+    const post = await getJobByPostID();
+
+    if (!user) return res.send(`User: ${userID} does not exist 😢`);
   } catch (error) {}
 });
 
