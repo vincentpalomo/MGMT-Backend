@@ -42,11 +42,14 @@ jobsRouter.get('/user/:user_id', async (req: Request, res: Response, next: NextF
     if (user.jobs.length === 0) return res.send(`No current jobs with this user 😥`);
 
     res.send(user);
-  } catch (error) {}
+  } catch (error) {
+    console.error('Error getting user by id', error);
+    next(error);
+  }
 });
 
 // GET api/jobs/user/:user_id/post/:post_id
-jobsRouter.get('/user/:user_id/post/:post_post_id', async (req: Request, res: Response, next: NextFunction) => {
+jobsRouter.get('/user/:user_id/post/:post_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userID = parseInt(req.params.user_id);
     const postID = parseInt(req.params.post_id);
@@ -58,7 +61,10 @@ jobsRouter.get('/user/:user_id/post/:post_post_id', async (req: Request, res: Re
     if (!post) return res.send(`Post: ${postID} does not exist 😢`);
 
     res.send(post);
-  } catch (error) {}
+  } catch (error) {
+    console.error('Error getting user job by id', error);
+    next(error);
+  }
 });
 
 // POST api/jobs/create/:user_id
@@ -159,6 +165,7 @@ jobsRouter.patch('/update/:user_id/:job_id', async (req: Request, res: Response,
   try {
     const userID = parseInt(req.params.user_id);
     const jobID = parseInt(req.params.job_id);
+
     const {
       title,
       company_name,

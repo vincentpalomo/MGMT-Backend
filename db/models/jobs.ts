@@ -10,7 +10,7 @@ interface Jobs {
   date_applied: number;
   application_status: boolean;
   interview_date: string | number | null;
-  interview_type: string;
+  interview_type: string | number | null;
   salary: number;
   follow_up: string | boolean | [];
   notes: string;
@@ -38,6 +38,8 @@ const createJob = async ({
     if (is_active == null) is_active = true;
 
     if (interview_date == '') interview_date = null;
+
+    if (interview_type == '') interview_type = null;
 
     if (follow_up == '') follow_up = [];
 
@@ -91,6 +93,14 @@ const updateJob = async ({
   is_active,
 }: Jobs) => {
   try {
+    if (is_active == null) is_active = true;
+
+    if (interview_date == '') interview_date = null;
+
+    if (interview_type == '') interview_type = null;
+
+    if (follow_up == '') follow_up = [];
+
     const query = `
     UPDATE jobs
     SET title = $1,
@@ -130,6 +140,8 @@ const updateJob = async ({
     const {
       rows: [job],
     } = await client.query(query, values);
+
+    console.log(job);
 
     return job;
   } catch (error) {
@@ -183,7 +195,8 @@ const getJobByUserID = async (user_id: number) => {
 const getJobByPostID = async (user_id: number, post_id: number) => {
   const job = await getAllJobs();
 
-  return job?.filter((j) => j.user_id === user_id && j.post_id === post_id);
+  console.log(job, user_id, post_id);
+  return job?.filter((j) => j.user_id === user_id && j.id === post_id);
 };
 
 module.exports = {

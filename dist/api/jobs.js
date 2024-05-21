@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jobsRouter = express_1.default.Router();
-const { createJob, updateJob, deleteJob, getAllJobs, getJobByUserID } = require('../db/models/jobs');
+const { createJob, updateJob, deleteJob, getAllJobs, getJobByUserID, getJobByPostID } = require('../db/models/jobs');
 const { getUserById } = require('../db/models/users');
 // GET api/jobs/
 jobsRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,7 +34,28 @@ jobsRouter.get('/user/:user_id', (req, res, next) => __awaiter(void 0, void 0, v
             return res.send(`No current jobs with this user 😥`);
         res.send(user);
     }
-    catch (error) { }
+    catch (error) {
+        console.error('Error getting user by id', error);
+        next(error);
+    }
+}));
+// GET api/jobs/user/:user_id/post/:post_id
+jobsRouter.get('/user/:user_id/post/:post_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userID = parseInt(req.params.user_id);
+        const postID = parseInt(req.params.post_id);
+        const user = yield getJobByUserID(userID);
+        const post = yield getJobByPostID(userID, postID);
+        if (!user)
+            return res.send(`User: ${userID} does not exist 😢`);
+        if (!post)
+            return res.send(`Post: ${postID} does not exist 😢`);
+        res.send(post);
+    }
+    catch (error) {
+        console.error('Error getting user job by id', error);
+        next(error);
+    }
 }));
 // POST api/jobs/create/:user_id
 jobsRouter.post('/create/:user_id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

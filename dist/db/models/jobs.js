@@ -17,6 +17,8 @@ const createJob = (_a) => __awaiter(void 0, [_a], void 0, function* ({ title, co
             is_active = true;
         if (interview_date == '')
             interview_date = null;
+        if (interview_type == '')
+            interview_type = null;
         if (follow_up == '')
             follow_up = [];
         const query = `
@@ -50,6 +52,14 @@ const createJob = (_a) => __awaiter(void 0, [_a], void 0, function* ({ title, co
 // update job
 const updateJob = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, title, company_name, jobURL, location, date_applied, application_status, interview_date, interview_type, salary, follow_up, notes, user_id, is_active, }) {
     try {
+        if (is_active == null)
+            is_active = true;
+        if (interview_date == '')
+            interview_date = null;
+        if (interview_type == '')
+            interview_type = null;
+        if (follow_up == '')
+            follow_up = [];
         const query = `
     UPDATE jobs
     SET title = $1,
@@ -86,6 +96,7 @@ const updateJob = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, title
             id,
         ];
         const { rows: [job], } = yield client_1.client.query(query, values);
+        console.log(job);
         return job;
     }
     catch (error) {
@@ -127,10 +138,17 @@ const getJobByUserID = (user_id) => __awaiter(void 0, void 0, void 0, function* 
     const job = yield getAllJobs();
     return job === null || job === void 0 ? void 0 : job.filter((j) => j.user_id === user_id);
 });
+// get job by post id
+const getJobByPostID = (user_id, post_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const job = yield getAllJobs();
+    console.log(job, user_id, post_id);
+    return job === null || job === void 0 ? void 0 : job.filter((j) => j.user_id === user_id && j.id === post_id);
+});
 module.exports = {
     createJob,
     updateJob,
     deleteJob,
     getAllJobs,
     getJobByUserID,
+    getJobByPostID,
 };
