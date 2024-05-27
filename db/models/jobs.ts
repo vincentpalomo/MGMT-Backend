@@ -141,8 +141,6 @@ const updateJob = async ({
       rows: [job],
     } = await client.query(query, values);
 
-    console.log(job);
-
     return job;
   } catch (error) {
     console.error('Error updating job:', error);
@@ -195,7 +193,6 @@ const getJobByUserID = async (user_id: number) => {
 const getJobByPostID = async (user_id: number, post_id: number) => {
   const job = await getAllJobs();
 
-  console.log(job, user_id, post_id);
   return job?.filter((j) => j.user_id === user_id && j.id === post_id);
 };
 
