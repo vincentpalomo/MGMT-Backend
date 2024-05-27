@@ -182,7 +182,7 @@ jobsRouter.patch('/update/:user_id/:job_id', async (req: Request, res: Response,
     }: Job = req.body;
 
     // Check if the user_id from the URL matches the user_id in the request body
-    if (userID !== req.body.user_id) {
+    if (userID !== parseInt(req.body.user_id)) {
       return res.status(403).json({ error: 'Unauthorized: User ID in URL does not match user ID in request body.' });
     }
 

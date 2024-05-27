@@ -125,7 +125,7 @@ jobsRouter.patch('/update/:user_id/:job_id', (req, res, next) => __awaiter(void 
         const jobID = parseInt(req.params.job_id);
         const { title, company_name, jobURL, location, date_applied, application_status, interview_date, interview_type, salary, follow_up, notes, is_active, } = req.body;
         // Check if the user_id from the URL matches the user_id in the request body
-        if (userID !== req.body.user_id) {
+        if (userID !== parseInt(req.body.user_id)) {
             return res.status(403).json({ error: 'Unauthorized: User ID in URL does not match user ID in request body.' });
         }
         // Call the updateJob function to update the job in the database
