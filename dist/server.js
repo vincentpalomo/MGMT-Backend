@@ -32,10 +32,10 @@ const apiRouter = require('./api');
 app.use('/api', apiRouter);
 const { client } = require('./db/client');
 exports.PORT = 4000 || process.env.PORT;
-const handle = app.listen(exports.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
+const handle = app.listen(exports.PORT, '0.0.0.0', () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
-        console.log(`Server is running on http://localhost:${exports.PORT}/ 🚀 API http://localhost:${exports.PORT}/api 🌐`);
+        console.log(`Server is running on http://0.0.0.0:${exports.PORT}/ 🚀 API http://0.0.0.0:${exports.PORT}/api 🌐`);
     }
     catch (error) {
         console.log('Error server shutdown 😢');

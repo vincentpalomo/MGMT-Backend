@@ -25,10 +25,10 @@ const { client } = require('./db/client');
 
 export const PORT = 4000 || process.env.PORT;
 
-const handle = app.listen(PORT, async () => {
+const handle = app.listen(PORT, '0.0.0.0', async () => {
   try {
     await client.connect();
-    console.log(`Server is running on http://localhost:${PORT}/ 🚀 API http://localhost:${PORT}/api 🌐`);
+    console.log(`Server is running on http://0.0.0.0:${PORT}/ 🚀 API http://0.0.0.0:${PORT}/api 🌐`);
   } catch (error) {
     console.log('Error server shutdown 😢');
     handle.close();
