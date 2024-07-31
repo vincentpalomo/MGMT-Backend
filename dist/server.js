@@ -31,7 +31,7 @@ app.get('/', (req, res, next) => {
 const apiRouter = require('./api');
 app.use('/api', apiRouter);
 const { client } = require('./db/client');
-exports.PORT = 4000 || process.env.PORT;
+exports.PORT = 3000 || process.env.PORT;
 const handle = app.listen(exports.PORT, '0.0.0.0', () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
